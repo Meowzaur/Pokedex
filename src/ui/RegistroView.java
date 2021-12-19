@@ -116,8 +116,8 @@ public class RegistroView {
 	private void crearRegistro() {
 		String usuario = tfUsuarioRegistro.getText();
 		String password = new String(pfPasswordRegistro.getPassword());
-		String repetirPassword = new String(pfPasswordRegistro.getPassword());
-		if (password.equals(repetirPassword) && !(usuario.isEmpty() || password.isEmpty())) {
+		String repetirPassword = new String(pfRepetirPasswordRegistro.getPassword());
+		if (password.equals(repetirPassword) && !usuario.isEmpty() && !password.isEmpty()) {
 			Almacen.listaUsuario.add(new Usuario(usuario, password));
 			JOptionPane.showMessageDialog(btnCrearRegistro, "Usuario añadido correctamente.");
 		} else {

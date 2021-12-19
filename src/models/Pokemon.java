@@ -13,16 +13,16 @@ public class Pokemon {
 	private double peso;
 	private String habilidad;
 	
-	public Pokemon(int numero, String nombre, Tipo tipo1, Tipo tipo2, String categoria, double altura,
-			double peso, String habilidad) {
+	public Pokemon(int numero, String nombre, Tipo tipo1, Tipo tipo2, double altura,
+			double peso, String categoria, String habilidad) {
 		super();
 		this.numero = numero;
 		this.nombre = nombre;
 		this.tipo1 = tipo1;
 		this.tipo2 = tipo2;
-		this.categoria = categoria;
 		this.altura = altura;
 		this.peso = peso;
+		this.categoria = categoria;
 		this.habilidad = habilidad;
 	}
 
@@ -58,14 +58,6 @@ public class Pokemon {
 		this.tipo2 = tipo2;
 	}
 
-	public String getCategoria() {
-		return categoria;
-	}
-
-	public void setCategoria(String categoria) {
-		this.categoria = categoria;
-	}
-
 	public double getAltura() {
 		return altura;
 	}
@@ -80,6 +72,14 @@ public class Pokemon {
 
 	public void setPeso(double peso) {
 		this.peso = peso;
+	}
+
+	public String getCategoria() {
+		return categoria;
+	}
+
+	public void setCategoria(String categoria) {
+		this.categoria = categoria;
 	}
 
 	public String getHabilidad() {

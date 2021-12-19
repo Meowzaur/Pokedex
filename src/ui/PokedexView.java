@@ -5,15 +5,11 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.SwingConstants;
 
-import models.Pokemon;
 import utils.Almacen;
 
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
-import java.util.Iterator;
-import java.util.ListIterator;
 import java.awt.event.ActionEvent;
-import javax.swing.JPasswordField;
 
 public class PokedexView {
 
@@ -57,7 +53,7 @@ public class PokedexView {
 		frmPokedex.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmPokedex.getContentPane().setLayout(null);
 
-		lblNumeroPokedex = new JLabel(Integer.toString(Almacen.listaPokemon.get(contador).getNumero()));
+		lblNumeroPokedex = new JLabel("#" + Integer.toString(Almacen.listaPokemon.get(contador).getNumero()));
 		lblNumeroPokedex.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblNumeroPokedex.setFont(new Font("Lucida Console", Font.BOLD, 20));
 		lblNumeroPokedex.setBounds(114, 35, 47, 25);
@@ -68,32 +64,32 @@ public class PokedexView {
 		lblNombrePokedex.setBounds(184, 35, 172, 25);
 		frmPokedex.getContentPane().add(lblNombrePokedex);
 
-		lblTipo1Pokedex = new JLabel(Almacen.listaPokemon.get(contador).getTipo1().name());
+		lblTipo1Pokedex = new JLabel("Tipo " + Almacen.listaPokemon.get(contador).getTipo1().name());
 		lblTipo1Pokedex.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		lblTipo1Pokedex.setBounds(58, 71, 123, 25);
 		frmPokedex.getContentPane().add(lblTipo1Pokedex);
 
-		lblTipo2Pokedex = new JLabel(Almacen.listaPokemon.get(contador).getTipo2().name());
+		lblTipo2Pokedex = new JLabel("Tipo " + Almacen.listaPokemon.get(contador).getTipo2().name());
 		lblTipo2Pokedex.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		lblTipo2Pokedex.setBounds(58, 95, 123, 25);
 		frmPokedex.getContentPane().add(lblTipo2Pokedex);
 
-		lblAlturaPokedex = new JLabel(Double.toString(Almacen.listaPokemon.get(contador).getAltura()));
+		lblAlturaPokedex = new JLabel("Altura: " + Double.toString(Almacen.listaPokemon.get(contador).getAltura()) + "m");
 		lblAlturaPokedex.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		lblAlturaPokedex.setBounds(232, 71, 123, 25);
 		frmPokedex.getContentPane().add(lblAlturaPokedex);
 
-		lblPesoPokedex = new JLabel(Double.toString(Almacen.listaPokemon.get(contador).getPeso()));
+		lblPesoPokedex = new JLabel("Peso: " + Double.toString(Almacen.listaPokemon.get(contador).getPeso()) + "kg");
 		lblPesoPokedex.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		lblPesoPokedex.setBounds(232, 95, 123, 25);
 		frmPokedex.getContentPane().add(lblPesoPokedex);
 
-		lblCategoriaPokedex = new JLabel(Almacen.listaPokemon.get(contador).getCategoria());
+		lblCategoriaPokedex = new JLabel("Categ.: " + Almacen.listaPokemon.get(contador).getCategoria());
 		lblCategoriaPokedex.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		lblCategoriaPokedex.setBounds(58, 131, 151, 25);
 		frmPokedex.getContentPane().add(lblCategoriaPokedex);
 
-		lblHabilidadPokedex = new JLabel(Almacen.listaPokemon.get(contador).getHabilidad());
+		lblHabilidadPokedex = new JLabel("Hab.: " + Almacen.listaPokemon.get(contador).getHabilidad());
 		lblHabilidadPokedex.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		lblHabilidadPokedex.setBounds(232, 131, 138, 25);
 		frmPokedex.getContentPane().add(lblHabilidadPokedex);
@@ -124,6 +120,9 @@ public class PokedexView {
 		btnAnteriorPokedex.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				contador--;
+				if (contador < 0) {
+					contador = Almacen.listaPokemon.size() - 1;
+				}
 				actualizarVista();
 			}
 		});
@@ -131,6 +130,9 @@ public class PokedexView {
 		btnSiguientePokedex.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				contador++;
+				if (contador >= Almacen.listaPokemon.size()) {
+					contador = 0;
+				}
 				actualizarVista();
 			}
 		});
@@ -138,7 +140,7 @@ public class PokedexView {
 		btnActualizarPokedex.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frmPokedex.setVisible(false);
-				new EditarPokemonView(frmPokedex);
+				new EditarPokemonView(frmPokedex, true);
 				// Añadir: Cambiar los datos de la vista por nuevos datos introducidos.
 			}
 		});
@@ -146,14 +148,14 @@ public class PokedexView {
 		btnCrearPokedex.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frmPokedex.setVisible(false);
-				new EditarPokemonView(frmPokedex);
-				// Añadir: Crear nuevo Pokémon al final de la lista.
+				new EditarPokemonView(frmPokedex, false);
 			}
 		});
 
 		btnBorrarPokedex.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Almacen.listaPokemon.remove(contador);
+				contador = 0;
 				actualizarVista();
 			}
 		});
@@ -161,13 +163,14 @@ public class PokedexView {
 	}
 
 	public void actualizarVista() {
-		lblNumeroPokedex.setText(Integer.toString(Almacen.listaPokemon.get(contador).getNumero()));
-//		private JLabel lblNombrePokedex;
-//		private JLabel lblTipo1Pokedex;
-//		private JLabel lblTipo2Pokedex;
-//		private JLabel lblAlturaPokedex;
-//		private JLabel lblPesoPokedex;
-//		private JLabel lblCategoriaPokedex;
-//		private JLabel lblHabilidadPokedex;
+		lblNumeroPokedex.setText("#" + Integer.toString(Almacen.listaPokemon.get(contador).getNumero()));
+		lblNombrePokedex.setText(Almacen.listaPokemon.get(contador).getNombre());
+		lblTipo1Pokedex.setText("Tipo " + Almacen.listaPokemon.get(contador).getTipo1().name());
+		lblTipo2Pokedex.setText("Tipo " + Almacen.listaPokemon.get(contador).getTipo2().name());
+		lblAlturaPokedex.setText("Altura: " + Double.toString(Almacen.listaPokemon.get(contador).getAltura()) + "m");
+		lblPesoPokedex.setText("Peso: " + Double.toString(Almacen.listaPokemon.get(contador).getPeso()) + "kg");
+		lblCategoriaPokedex.setText("Categ.: " + Almacen.listaPokemon.get(contador).getCategoria());
+		lblHabilidadPokedex.setText("Hab.: " + Almacen.listaPokemon.get(contador).getHabilidad());
 	}
+	
 }
