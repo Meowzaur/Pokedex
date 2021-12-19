@@ -7,7 +7,7 @@ import models.Usuario;
 
 public class Almacen {
 	
-	public static ArrayList<Pokemon> ListaPokemon;
-	public static ArrayList<Usuario> ListaUsuario;
+	public static ArrayList<Pokemon> listaPokemon = new ArrayList<Pokemon>();
+	public static ArrayList<Usuario> listaUsuario = new ArrayList<Usuario>();
 
 }

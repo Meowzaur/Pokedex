@@ -6,6 +6,9 @@ import javax.swing.JOptionPane;
 
 import java.awt.Font;
 import javax.swing.JTextField;
+
+import utils.Almacen;
+
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -74,7 +77,7 @@ public class LoginView {
 		frmLogin.getContentPane().add(btnEntrarLogin);
 		
 		btnIrARegistrar = new JButton("Reg\u00EDstrate");
-		btnIrARegistrar.setBounds(322, 214, 89, 23);
+		btnIrARegistrar.setBounds(298, 214, 113, 23);
 		frmLogin.getContentPane().add(btnIrARegistrar);
 	}
 	
@@ -96,8 +99,8 @@ public class LoginView {
 		
 		btnIrARegistrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				frmLogin.setVisible(false);
-				// Abrir ventana de registro
+				frmLogin.dispose();
+				new RegistroView();
 			}
 		});
 	}
@@ -105,10 +108,15 @@ public class LoginView {
 	private void comprobarLogin() {
 		String usuario = tfUsuarioLogin.getText();
 		String password = new String(pfPasswordLogin.getPassword());
-		if (usuario.equals("Aquí va el usuario de la lista") && password.equals("Aquí va la contraseña de la lista")) {
-			frmLogin.setVisible(false);
-			// Abrir ventana de Pokedex
-		} else {
+		boolean entrar = false;
+		for (int i = 0; i < Almacen.listaUsuario.size(); i++) {
+			if (usuario.equals(Almacen.listaUsuario.get(i).getUsername()) && password.equals(Almacen.listaUsuario.get(i).getPassword())) {
+				entrar = true;
+				frmLogin.dispose();
+				new PokedexView();
+			}
+		}
+		if (!entrar) {
 			JOptionPane.showMessageDialog(btnEntrarLogin, "Login incorrecto");
 		}
 	}

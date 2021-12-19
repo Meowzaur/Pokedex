@@ -4,6 +4,10 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+
+import models.Usuario;
+import utils.Almacen;
+
 import javax.swing.JPasswordField;
 
 import java.awt.event.ActionEvent;
@@ -75,7 +79,7 @@ public class RegistroView {
 		frmRegistro.getContentPane().add(pfRepetirPasswordRegistro);
 		
 		btnCrearRegistro = new JButton("Crear usuario");
-		btnCrearRegistro.setBounds(145, 187, 103, 23);
+		btnCrearRegistro.setBounds(145, 187, 128, 23);
 		frmRegistro.getContentPane().add(btnCrearRegistro);
 		
 		btnVolverALogin = new JButton("Volver");
@@ -99,6 +103,13 @@ public class RegistroView {
 				}
 			}
 		});
+
+		btnVolverALogin.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frmRegistro.dispose();
+				new LoginView();
+			}
+		});
 		
 	}
 	
@@ -106,10 +117,11 @@ public class RegistroView {
 		String usuario = tfUsuarioRegistro.getText();
 		String password = new String(pfPasswordRegistro.getPassword());
 		String repetirPassword = new String(pfPasswordRegistro.getPassword());
-		if (password.equals(repetirPassword)) {
-			// Crea usuario.
+		if (password.equals(repetirPassword) && !(usuario.isEmpty() || password.isEmpty())) {
+			Almacen.listaUsuario.add(new Usuario(usuario, password));
+			JOptionPane.showMessageDialog(btnCrearRegistro, "Usuario añadido correctamente.");
 		} else {
-			JOptionPane.showMessageDialog(btnCrearRegistro, "Las contraseñas no son iguales.");
+			JOptionPane.showMessageDialog(btnCrearRegistro, "Error de creación.");
 		}
 	}
 }
